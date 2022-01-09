@@ -249,7 +249,7 @@ D.If = [D.Ixf  0       0; ...
 % % D.dlt4 = 0;
 % % fog.cgf =  1.4460; %cg final em rela��o a coifa
 % % cgi =  1.5145; %cg inicial em rela��o a coifa
-load('ENTRADAS/AED_TO_MVO_2021_09_04_17_45_48.mat');  % tempo de obtenção =     2.1400e+03 Apogeu: 2512.084197
+load('ENTRADAS/AED_TO_MVO_2022_01_09_02_38_50.mat');  % tempo de obtenção =     2.1400e+03 Apogeu: 2512.084197
 %load('ENTRADAS/AED_TO_MVO_2021_09_11_15_08_23.mat');  % tempo de obtenção =     2.1396e+03  Apogeu: 2512.084197
 
 % % dref = 0.1524;
@@ -317,7 +317,7 @@ icg_medio = 3;  % size(cg) = 5
 for (imach = 1:length(dados.mach))
     tabela_cd(imach,1) = dados.mach(imach);
     % considerando deltas, phi e alphas nulos e cg médio
-    tabela_cd(imach,2) = M.CD(idelta,idelta,idelta,idelta,iphi,imach,ialpha,icg_medio);
+    tabela_cd(imach,2) = M.CD(iphi,imach,ialpha,icg_medio);
 end
 save ENTRADAS/Tabela_CDxMach.dat tabela_cd -ascii
 rmp.CDvMach = 'ENTRADAS/Tabela_CDxMach.dat';                 % Tabela de CD por Mach para simulação em 2DOF da rampa.
