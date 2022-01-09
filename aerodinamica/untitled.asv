@@ -1,0 +1,10 @@
+h2 = figure;
+figtitle = {'Drag Coefficient' ''};
+zero = find(data.alpha == 0);
+interesting_alphas = data.alpha(zero:end);
+
+for k = 1:size(data.mach)
+plot(interesting_alphas, data.cd(zero:end,1))
+ylabel('Drag Coefficient');
+xlabel('Angle of Attack AoA');
+
