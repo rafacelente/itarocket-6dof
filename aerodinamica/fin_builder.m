@@ -1,4 +1,4 @@
-function [empenas,Outs] = Gera_Empenas(Body,empenas,Inputs)
+function [empenas,Outs] = fin_builder(empenas,Inputs)
 % Para qualquer empena
 %%%%% ### CODIGO QUE GERA GEOMETRIA DO BODY PRO DATCOM --- ITA-ROCKET-DESIGN ###
 %   ELE CONSTROI A GEOMETRIA DAS EMPENAS SEGUNDO AS FORMULAS DO MANUAL DO
@@ -79,8 +79,6 @@ end
 % sentido pegar apenas metade da espessura, senão não haveria critério pra ser diferente.
 
 empenas.ZUPPER = [(Inputs.e/(empenas.CHORD(1)))/2;(Inputs.e/(empenas.CHORD(2)))/2];
-    
-% Inputs.Meio_Ang_ATQ = 30; % Angulo que o chanfro do Leading EDGE faz com a linha da corda.
 
 % Ponto, medido em FRAÇÃO da corda, em que ocorre a espessura maxima da empena na geometria HEX. 
 % (pag 44. do DATCOM)

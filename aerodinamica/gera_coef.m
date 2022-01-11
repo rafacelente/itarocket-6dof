@@ -1,64 +1,53 @@
-%% GERA OS COEFICIENTES AERODINÂMICOS PARA O RDX
-% referência: gera_coef.m
-% endereço:
-% Ita Rocket
-% Design/Mecânica de voo/RDX/AED/AED-TO-MVO
-
-
 clear all
 clc
 close all
 
-%%% dados do foguete RDX
-dref = 0.1524;
-L = 2.2803;
+%% INPUTS do foguete - mudar para app depois
+
+%geometria do foguete
+%diâmetro de referência (m)
+rocket.dref = 0.1524;
+%comprimento do foguete (m)
+rocket.L = 2.2803;
+
+
+%deflexões das empenas - são usadas para algo?
+rocket.dlt1 = 0;
+rocket.dlt2 = 0;
+rocket.dlt3 = 0;
+rocket.dlt4 = 0;
+
+%posição final e inicial do CG em relação ao nariz (m)
+rocket.Lcgf =  1.4460;
+rocket.Lcg0 =  1.5145;
+
+% Tipo de geometria da coifa (Tipo 1: Elipsoide, Tipo 2: Ogiva)
+rocket.tipo_coifa = 1;
+% Fineness ratio da coifa (razao entre comprimento e Diametro)
+rocket.fineness = 2.5;
+%semienvergadura da empena (m)
+rocket.semispan = 150/1000; 
+rocket.fin_width = 4/1000; %mm de espessura
+%inputs de condição de simulação
+
+%altitude de lançamento (m)
 Alt0 = 1294;
-%Alt0 = 0;
-dlt1 = 0;
-dlt2 = 0;
-dlt3 = 0;
-dlt4 = 0;
-Lcgf =  1.4460;
-Lcg0 =  1.5145;
-% AED_TO_MVO_2021_09_04_17_45_48.mat (reduzido)
-% tempo =
-% 
-%    2.1400e+03
-% AED_TO_MVO_2021_09_11_15_08_23.mat (completo)
-% tempo =
-% 
-%    2.1396e+03
-
-%%% Entradas para a análise MVO
-
-
 % vetor de PHI que entra como "alternativa ao angulo BETA"
 % obs* no codigo do peixoto a configuracao eh phi+Alpha_Total
 % ao inves de "alpha+beta". Se quiserem mudar isso, mexer no simulink.
-dados.phif = 0:15:360;
+dados.phif = 0:15:360; %o que isso faz?
 
-dados.cg = linspace(Lcgf,Lcg0,5);
+dados.cg = linspace(rocket.Lcgf,rocket.Lcg0,5);
 
 dados.alpha = [-20.,-16.,-12.,-8.,-4.,-2.,0.,2.,4.,8.,12.,16.,20.];
 dados.mach  = [0.06,0.09,0.1,0.2,0.3,0.35,0.4,0.6,0.7,0.8,0.95,1.1];
 
-% Entradas no FOR005
-
-% % Inputs do for005 para foguete 2021/RDX em função de (dref,L,Alt0)
-[for005] = inputs_for005_RDX2021_func(dref,L,Alt0,dados);
-
-
-
+%%
+% Construção do arquivo de entrada do DATCOM
+[for005] = for005_builder(rocket, Alt0, dados);
 %% RODAR O  DATCOM  PARA A MVO, EXTRAINDO OS DADOS DELE E SALVANDO.
 tic
-[M]=DATCOM_TO_MVO_RDX2021(dados,for005);
+[M]=DATCOM_TO_MVO(dados,for005);
 tempo = toc
 time = datestr(clock,'YYYY_mm_dd_HH_MM_SS');
 save(strcat('AED_TO_MVO_',time),'M','dados','for005')
-
-% tempo =
-% 
-%    2.8278e+04
-% tempo =
-% 
-%    2.1818e+03
