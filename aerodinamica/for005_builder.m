@@ -1,4 +1,4 @@
-function [for005] = for005_builder(rocket,Alt0,dados)
+function [for005] = for005_builder(rocket, dados)
 % Inputs do for005 foguete 2021/RDX
 
 %% 1. Control Card
@@ -143,7 +143,7 @@ plot_geometria(for005,InputEmpenas,OutEmpenas)
 
 %% 5. $DEFLCT: Panel incidence (deflection) values
 Inputfor005.DEFLCT.hasDELTA1 = 1;
-Inputfor005.DEFLCT.DELTA1 = [rocket.dlt1,rocket.dlt2,rocket.dlt3,rocket.dlt4];
+Inputfor005.DEFLCT.DELTA1 = [0,0,0,0];
 Inputfor005.DEFLCT.hasDELTA2 = 0;
 Inputfor005.DEFLCT.hasXHINGE = 1;
 Inputfor005.DEFLCT.XHINGE = 2.342;
@@ -157,7 +157,7 @@ Inputfor005.FLTCON.ALPHA = dados.alpha;
 Inputfor005.FLTCON.MACH  = dados.mach;
 Inputfor005.FLTCON.NALPHA = size(Inputfor005.FLTCON.ALPHA,2);
 Inputfor005.FLTCON.NMACH = size(Inputfor005.FLTCON.MACH,2);
-Inputfor005.FLTCON.ALT = Alt0*ones(1,Inputfor005.FLTCON.NMACH);   %%% Conforme sim_completo
+Inputfor005.FLTCON.ALT = dados.Alt0*ones(1,Inputfor005.FLTCON.NMACH);   %%% Conforme sim_completo
 
 for005.FLTCON = Inputfor005.FLTCON;
 
