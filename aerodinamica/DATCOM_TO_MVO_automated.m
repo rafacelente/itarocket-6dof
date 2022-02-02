@@ -1,4 +1,4 @@
-function [M]=DATCOM_TO_MVO(dados,for005)
+function [M]=DATCOM_TO_MVO_automated(dados,for005, app)
 % RODAR O  DATCOM  PARA A MVO E EXTRAINDO OS DADOS DELE.
 % Gera a struct M
 
@@ -29,7 +29,8 @@ for icg = 1:length(dados.cg)
         % PHI ; MACH ; ALPHA ; XCG
         % -------------------------
         
-        disp(strcat(string(round(100 * icg * iphif0 / total_cases)), " %"));
+        app.Gauge.Value = round(100 * icg * iphif0 / total_cases);
+        drawnow
         
         % Para cada uma das condicoes de PHI e XCG,
         % rodar e guardar nessa MATRIZ de 4 dimensoes.
