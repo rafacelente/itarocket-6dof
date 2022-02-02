@@ -1,37 +1,40 @@
-function [M]=DATCOM_TO_MVO_RDX2021(dados,for005)
+function [M]=DATCOM_TO_MVO_automated(dados,for005, app)
 % RODAR O  DATCOM  PARA A MVO E EXTRAINDO OS DADOS DELE.
 % Gera a struct M
 
 % montanha de FOR'S.
-
+total_cases = length(dados.cg)*length(dados.phif);
 for icg = 1:length(dados.cg)
     for iphif0 = 1:length(dados.phif)
-          for005.REFQ.XCG = dados.cg(icg);
-          if for005.FINSET2.has==1
+        for005.REFQ.XCG = dados.cg(icg);
+        if for005.FINSET2.has==1
             for005.FINSET2.AngleSET = [mod(45+dados.phif(iphif0),360),mod(135+dados.phif(iphif0),360),mod(225+dados.phif(iphif0),360),mod(315+dados.phif(iphif0),360)];
-          end
-          if for005.FINSET1.has==1
+        end
+        if for005.FINSET1.has==1
             for005.FINSET1.AngleSET = [mod(45+dados.phif(iphif0),360),mod(135+dados.phif(iphif0),360),mod(225+dados.phif(iphif0),360),mod(315+dados.phif(iphif0),360)];
-          end
-                        
-          gera_for005(for005)
-          !Misdat.exe
-           % quando considera FINSET1.LER
-           % resolver o run-time error M6201: MATH  - sqrt: DOMAIN error
-           % Image              PC        Routine            Line        Source
-           % Misdat.exe         0050D539  Unknown               Unknown  Unknown
-           %[CN,CM,CA,CY,CLN,CLL,CD,CNQ, CMQ, CAQ, CNAD, CMAD, CYR, CLNR, CLLR, ...
-           %    CYP,CLNP,CLLP]=DATCOMreader_nathy_reduzido('for006.dat',for005.FINSET1,for005.FINSET2,dados); % na dinâmica só usa esses coeficientes
-           [CN,CM,CA,CY,CLN,CLL,CL,CD,XCP,CNA,CMA,CYB,CLNB,CLLB,CNQ, CMQ, CAQ, ...
-               CNAD, CMAD, CYR, CLNR, CLLR, CYP, CLNP ,CLLP, hinge]=DATCOMreader_nathy('for006.dat',for005.FINSET1,for005.FINSET2,dados);
-           % Seguindo a ordem das dimensões nas extracoes dos dados.
-           % -------------------------
-           % DELTAS ; PHI ; MACH ; ALPHA ; XCG
-           % -------------------------
-                        
-           % Para cada uma das condicoes de DELTAS, PHI e XCG,
-           % rodar e guardar nessa MATRIZ de 8 dimensoes.
-           for imach=1:length(dados.mach)
+        end
+        
+        gera_for005(for005)
+        !Misdat.exe
+        % quando considera FINSET1.LER
+        % resolver o run-time error M6201: MATH  - sqrt: DOMAIN error
+        % Image              PC        Routine            Line        Source
+        % Misdat.exe         0050D539  Unknown               Unknown  Unknown
+        %[CN,CM,CA,CY,CLN,CLL,CD,CNQ, CMQ, CAQ, CNAD, CMAD, CYR, CLNR, CLLR, ...
+        %    CYP,CLNP,CLLP]=DATCOMreader_nathy_reduzido('for006.dat',for005.FINSET1,for005.FINSET2,dados); % na dinâmica só usa esses coeficientes
+        [CN,CM,CA,CY,CLN,CLL,CL,CD,XCP,CNA,CMA,CYB,CLNB,CLLB,CNQ, CMQ, CAQ, ...
+            CNAD, CMAD, CYR, CLNR, CLLR, CYP, CLNP ,CLLP, hinge]=DATCOMreader_nathy('for006.dat',for005.FINSET1,for005.FINSET2,dados);
+        % Seguindo a ordem das dimensões nas extracoes dos dados.
+        % -------------------------
+        % PHI ; MACH ; ALPHA ; XCG
+        % -------------------------
+        
+        app.Gauge.Value = round(100 * icg * iphif0 / total_cases);
+        drawnow
+        
+        % Para cada uma das condicoes de PHI e XCG,
+        % rodar e guardar nessa MATRIZ de 4 dimensoes.
+        for imach=1:length(dados.mach)
             for ialfa=1:length(dados.alpha)
                 M.CN(iphif0,imach,ialfa,icg)=CN(ialfa,imach);
                 M.CM(iphif0,imach,ialfa,icg)=CM(ialfa,imach);
@@ -58,12 +61,13 @@ for icg = 1:length(dados.cg)
                 M.CYP(iphif0,imach,ialfa,icg)=CYP(ialfa,imach);
                 M.CLNP(iphif0,imach,ialfa,icg)=CLNP(ialfa,imach);
                 M.CLLP(iphif0,imach,ialfa,icg)=CLLP(ialfa,imach);
+                %inúteis? sem deflexão de empena
                 M.hinge11(iphif0,imach,ialfa,icg)=hinge(1,1,ialfa,imach);
                 M.hinge12(iphif0,imach,ialfa,icg)=hinge(1,2,ialfa,imach);
                 M.hinge13(iphif0,imach,ialfa,icg)=hinge(1,3,ialfa,imach);
                 M.hinge14(iphif0,imach,ialfa,icg)=hinge(1,4,ialfa,imach);
             end
         end
-     end
-  end
+    end
+end
 end

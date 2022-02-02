@@ -1,65 +1,47 @@
-function [for005] = inputs_for005_RDX2021_func(dref,L,Alt0,dados)
+function [for005] = for005_builder(rocket, dados)
 % Inputs do for005 foguete 2021/RDX
 
 %% 1. Control Card
-Inputfor005.CARD.DIM = 'M';
-Inputfor005.CARD.DERIV = 'RAD';
-Inputfor005.CARD.hasDAMP = 1;
-Inputfor005.CARD.hasPRINTAEROHINGE = 1;
-Inputfor005.CARD.hasSAVE = 1;
-Inputfor005.CARD.hasNEXTCASE = 1;
-
-for005.CARD = Inputfor005.CARD;
+for005.CARD.DIM = 'M';
+for005.CARD.DERIV = 'RAD';
+for005.CARD.hasDAMP = 1;
+for005.CARD.hasPRINTAEROHINGE = 1;
+for005.CARD.hasSAVE = 1;
+for005.CARD.hasNEXTCASE = 1;
 
 %% 2. $REFQ: Reference Quantities
 % DADOS INPUT como Diametro do foguete e Comprimento total
 
-Inputfor005.REFQ.hasLREF = 1;
-if Inputfor005.REFQ.hasLREF == 1
-    for005.REFQ.LREF = dref;
-end
-
-Inputfor005.REFQ.hasSREF = 1;
-if Inputfor005.REFQ.hasSREF == 1
-    for005.REFQ.SREF = pi*(for005.REFQ.LREF/2)^2;
-end
-
+for005.REFQ.LREF = rocket.dref;
+for005.REFQ.SREF = pi*(for005.REFQ.LREF/2)^2;
+%o que deve vir aqui?
 Inputfor005.REFQ.XCG = 1.416;
-
-Inputfor005.REFQ.hasSCALE = 0;
-if Inputfor005.REFQ.hasSCALE ==1
-    Inputfor005.REFQ.SCALE = 1;
-    for005.REFQ.SCALE = Inputfor005.REFQ.SCALE;
-end
-
-Inputfor005.REFQ.hasBLAYER = 1;
-if Inputfor005.REFQ.hasBLAYER ==1
-    Inputfor005.REFQ.BLAYER = 'TURB';
-    for005.REFQ.BLAYER = Inputfor005.REFQ.BLAYER;
-end
-for005.REFQ.hasLREF = Inputfor005.REFQ.hasLREF;
-for005.REFQ.hasSREF = Inputfor005.REFQ.hasSREF;
-for005.REFQ.XCG = Inputfor005.REFQ.XCG;
-for005.REFQ.hasSCALE = Inputfor005.REFQ.hasSCALE;
-for005.REFQ.hasBLAYER = Inputfor005.REFQ.hasBLAYER;
+for005.REFQ.SCALE = 1;   %tamanho do modelo (para uso com túnel de vento)
+for005.REFQ.BLAYER = 'TURB';
+%necessários pro datcom?
+for005.REFQ.hasLREF = 1;
+for005.REFQ.hasSREF = 1;
+for005.REFQ.hasSCALE = 0;
+for005.REFQ.hasBLAYER = 1;
 
 %% 3. $AXIBOD: Axisymmetric Body Geometry
-Inputfor005.AXIBOD.option = 2;
+for005.AXIBOD.option = 2;
 
-if Inputfor005.AXIBOD.option == 1
-        Inputfor005.AXIBOD.TNOSE = 'OGIVE';
-        Inputfor005.AXIBOD.LNOSE = 0.0735;
-        Inputfor005.AXIBOD.DNOSE = 0.147;
-        Inputfor005.AXIBOD.BNOSE=0.0735;
-        Inputfor005.AXIBOD.LCENTR=2.094;
-        Inputfor005.AXIBOD.DEXIT=0.;
+if for005.AXIBOD.option == 1
+    %números obsoletos! não sei o que cada um significa
+    for005.AXIBOD.TNOSE = 'OGIVE';
+    for005.AXIBOD.LNOSE = 0.0735;
+    for005.AXIBOD.DNOSE = 0.147;
+    for005.AXIBOD.BNOSE=0.0735;
+    for005.AXIBOD.LCENTR=2.094;
+    for005.AXIBOD.DEXIT=0.;
 else
-     Body.DiametroBody = dref;       % unidade metros
-Body.Ltotal = L;                % unidade metros 2237; % sem bocal do motor
-
-InputBody.Tipo = 1;                     % Tipo de geometria da coifa (Tipo 1: Elipsoide, Tipo 2: Ogiva)
-InputBody.fineness = 2.5;               % Fineness ratio da coifa (razao entre comprimento e Diametro)
-  
+    Body.DiametroBody = rocket.dref;       % unidade metros
+    Body.Ltotal = rocket.L;                % unidade metros 2237; % sem bocal do motor
+    
+    InputBody.Tipo = rocket.tipo_coifa;                     % Tipo de geometria da coifa (Tipo 1: Elipsoide, Tipo 2: Ogiva)
+    InputBody.fineness = rocket.fineness;               % Fineness ratio da coifa (razao entre comprimento e Diametro)
+    
     % Lembrar que no maximo serao 50 pontos... Então, De antemao...
     % Ha transicao no corpo principal
     % Digite:  0 (não ha Transicao), 1 (há 1 Transicao)
@@ -85,7 +67,7 @@ InputBody.fineness = 2.5;               % Fineness ratio da coifa (razao entre c
         %-------------------------------------------------------------------------
         
     end
-
+    
     % Desenvolver -> ha bocal de saida do motor.. ver se isso interfere.
     InputBody.BocalMotor.has = 0; % Digite:  0 (não ha Bocal), 1 (há 1 Bocal)
     if InputBody.BocalMotor.has == 1
@@ -96,47 +78,45 @@ InputBody.fineness = 2.5;               % Fineness ratio da coifa (razao entre c
         InputBody.BocalMotor.LengthVisivelBocal = 0.03294;   %% INPUT do novo comprimento do foguete (m)
         
     end
-    BodyRocket = Gera_BodyRocket(InputBody,Body);
+    BodyRocket = rocket_body_builder(InputBody,Body);
     
-    Inputfor005.AXIBOD.NX = length(BodyRocket.X);
-    Inputfor005.AXIBOD.X = BodyRocket.X; %.7f
-    Inputfor005.AXIBOD.R = BodyRocket.R; %.6f
-    Inputfor005.AXIBOD.DISCON = BodyRocket.DISCON;
-    Inputfor005.AXIBOD.DEXIT=0.;
-    
+    for005.AXIBOD.NX = length(BodyRocket.X);
+    for005.AXIBOD.X = BodyRocket.X; %.7f
+    for005.AXIBOD.R = BodyRocket.R; %.6f
+    for005.AXIBOD.DISCON = BodyRocket.DISCON;
+    for005.AXIBOD.DEXIT=0.;
+
 end
-
-for005.AXIBOD = Inputfor005.AXIBOD;
-
 %% 4. $FINSETN: Fin descriptions by fin set N
 % se possue..
-Inputfor005.FINSET1.has = 1; % empenas
-Inputfor005.FINSET2.has = 0; % canares e empenas
+for005.FINSET1.has = 1; % empenas
+for005.FINSET2.has = 0; % canares
 
-if Inputfor005.FINSET1.has == 1 % se possue canares
-	Inputfor005.FINSET1.hasZUPPER = 1;
-    Inputfor005.FINSET1.hasLMAXU = 1;
-    Inputfor005.FINSET1.hasLFLATU = 1;
-    Inputfor005.FINSET1.hasLER = 1;
+if for005.FINSET1.has == 1 % se possue empenas
+	for005.FINSET1.hasZUPPER = 1;
+    for005.FINSET1.hasLMAXU = 1;
+    for005.FINSET1.hasLFLATU = 1;
+    for005.FINSET1.hasLER = 1;
     
-    Inputfor005.FINSET1.hasPHIF = 1;
-    Inputfor005.FINSET1.hasCFOC = 1;
-    Inputfor005.FINSET1.CFOC = [1,1,1];
-    Inputfor005.FINSET1.NPANEL = 4;                  % ## INPUT ## Numero de empenas
-    Inputfor005.FINSET1.AngleSET = [45,135,225,315];      % ## INPUT ## Posicao das empenas na saia do foguete
+    for005.FINSET1.hasPHIF = 1;
+    for005.FINSET1.hasCFOC = 1;
+    for005.FINSET1.CFOC = [1,1,1];
+    for005.FINSET1.NPANEL = 4;                  % ## INPUT ## Numero de empenas
+    for005.FINSET1.AngleSET = [45,135,225,315];      % ## INPUT ## Posicao das empenas na saia do foguete
     
-    InputEmpenas.SPAN = 150/1000; % ## INPUT ## Semi envergadura da Empena, em (m)
+    InputEmpenas.SPAN = rocket.semispan; % ## INPUT ## Semi envergadura da Empena, em (m)
     InputEmpenas.subsonico = true;                           % ## INPUT ##  VOO subsonico.
-    InputEmpenas.e = 4/1000;
+    InputEmpenas.e = rocket.fin_width;
     InputEmpenas.Folga_TE_Saia = 0;                           % ## INPUT ## espaço entre o bordo de fuga das empenas e do Final da saia.
+    
+    
+    InputEmpenas.L = Body.Ltotal/1;           % # Comprimento total do foguete, desconsiderando o bocal do motor, se ele ficar pra fora
+    InputEmpenas.R = Body.DiametroBody/2;                  % # Raio do corpo do foguete (raio externo)-> onde serao fixado as empenas
+    
     % --- IMPORTANTE!
     % SE QUISER DEIXAR SEMPRE COMO RETO (2:1:1) a opcao abaixo
     % exclui parametros que virão logo a seguir.
     InputEmpenas.TrapReto211 = true; % ## INPUT ## OPCIONAL Pra mudar
-    
-    InputEmpenas.L = Body.Ltotal/1;           % # Comprimento total do foguete, desconsiderando o bocal do motor, se ele ficar pra fora
-    InputEmpenas.R = Body.DiametroBody/2;                  % # Raio do corpo do foguete (raio externo)-> onde serao fixado as empenas
-
     if InputEmpenas.TrapReto211==false
         % SE NAO QUISER deixar Obrigatoriamente como geometria 2:1:1 RETO,
         % Mudar as opcoes abaixo:
@@ -144,12 +124,13 @@ if Inputfor005.FINSET1.has == 1 % se possue canares
         InputEmpenas.AlphaAT = 30;                % ## INPUT_opcional ## Angulo de "entrada", no bordo de ataque, do perfil da empena.
         InputEmpenas.BetaSaida = 60;              % ## INPUT_opcional ## Angulo de "saida", no bordo de fuga, no perfil da empena.
     end
+    %valor para a empena 211?
     InputEmpenas.Meio_Ang_ATQ = 30; % Angulo que o chanfro do Leading EDGE faz com a linha da corda.
     
-    [Inputfor005.FINSET1,OutEmpenas] = Gera_Empenas(Body,Inputfor005.FINSET1,InputEmpenas); % só possue empenas
+    [for005.FINSET1,OutEmpenas] = fin_builder(for005.FINSET1,InputEmpenas); % só possue empenas
     
 end
-if Inputfor005.FINSET2.has == 1 % se possue canares
+if for005.FINSET2.has == 1 % se possue canares
    	for005.FINSET2.SSPAN = [0.0735,0.1535,0.1635,0.35];
     for005.FINSET2.CHORD=[0.7,0.6,0.4,0.2];
 	for005.FINSET2.hasCFOC = 1;
@@ -158,29 +139,7 @@ if Inputfor005.FINSET2.has == 1 % se possue canares
     for005.FINSET2.NPANEL = 4;
     for005.FINSET2.PHIF = [0,90,180,270];
 end
-for005.FINSET1 = Inputfor005.FINSET1 ;
-for005.FINSET2 = Inputfor005.FINSET2 ;
-
 plot_geometria(for005,InputEmpenas,OutEmpenas)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 %% 5. $DEFLCT: Panel incidence (deflection) values
 Inputfor005.DEFLCT.hasDELTA1 = 1;
@@ -198,7 +157,7 @@ Inputfor005.FLTCON.ALPHA = dados.alpha;
 Inputfor005.FLTCON.MACH  = dados.mach;
 Inputfor005.FLTCON.NALPHA = size(Inputfor005.FLTCON.ALPHA,2);
 Inputfor005.FLTCON.NMACH = size(Inputfor005.FLTCON.MACH,2);
-Inputfor005.FLTCON.ALT = Alt0*ones(1,Inputfor005.FLTCON.NMACH);   %%% Conforme sim_completo
+Inputfor005.FLTCON.ALT = dados.Alt0*ones(1,Inputfor005.FLTCON.NMACH);   %%% Conforme sim_completo
 
 for005.FLTCON = Inputfor005.FLTCON;
 

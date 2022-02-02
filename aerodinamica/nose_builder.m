@@ -1,4 +1,4 @@
-function [ X,R ] = Gera_geom_Coifa( Tipo,npontos,Diametro,fineness )
+function [ X,R ] = nose_builder( Tipo,npontos,Diametro,fineness )
 % GERA_GEOM_COIFA medidas em metros
 %   Funcao que gera a coifa, dependendo de seu tipo
 %   com a quantidade de pontos que foi fornecida.
