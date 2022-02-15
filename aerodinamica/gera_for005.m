@@ -11,7 +11,7 @@ fileID = fopen('for005.dat','w');
 
 %%% initial Control Card
 fprintf(fileID,'DIM %s\r\n',for005.CARD.DIM);                   % comprimentos nos resultados em metros
-fprintf(fileID,'DERIV %s\r\n',for005.CARD.DERIV);               % ângulos nos resultados em radianos
+fprintf(fileID,'DERIV %s\r\n',for005.CARD.DERIV);              % ângulos nos resultados em radianos
 if for005.CARD.hasDAMP==1
     fprintf(fileID,'DAMP\r\n');
 end

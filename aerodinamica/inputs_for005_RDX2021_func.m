@@ -125,7 +125,7 @@ if Inputfor005.FINSET1.has == 1 % se possue canares
     Inputfor005.FINSET1.NPANEL = 4;                  % ## INPUT ## Numero de empenas
     Inputfor005.FINSET1.AngleSET = [45,135,225,315];      % ## INPUT ## Posicao das empenas na saia do foguete
     
-    InputEmpenas.SPAN = 150/1000; % ## INPUT ## Semi envergadura da Empena, em (m)
+    InputEmpenas.SPAN = dados.fin_size/1000; % ## INPUT ## Semi envergadura da Empena, em (m)
     InputEmpenas.subsonico = true;                           % ## INPUT ##  VOO subsonico.
     InputEmpenas.e = 4/1000;
     InputEmpenas.Folga_TE_Saia = 0;                           % ## INPUT ## espaço entre o bordo de fuga das empenas e do Final da saia.

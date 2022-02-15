@@ -11,25 +11,16 @@ close all
 
 %%% dados do foguete RDX
 dref = 0.1524;
-L = 2.2803;
+L = 2.455;
 Alt0 = 1294;
 %Alt0 = 0;
 dlt1 = 0;
 dlt2 = 0;
 dlt3 = 0;
 dlt4 = 0;
-Lcgf =  1.4460;
-Lcg0 =  1.5145;
-% AED_TO_MVO_2021_09_04_17_45_48.mat (reduzido)
-% tempo =
-% 
-%    2.1400e+03
-% AED_TO_MVO_2021_09_11_15_08_23.mat (completo)
-% tempo =
-% 
-%    2.1396e+03
-
-%%% Entradas para a análise MVO
+Lcgf =  1.530;
+Lcg0 =  1.654;
+fin_size = 150; % Fin size in mm
 
 
 % vetor de PHI que entra como "alternativa ao angulo BETA"
@@ -41,7 +32,7 @@ dados.cg = linspace(Lcgf,Lcg0,5);
 
 dados.alpha = [-20.,-16.,-12.,-8.,-4.,-2.,0.,2.,4.,8.,12.,16.,20.];
 dados.mach  = [0.06,0.09,0.1,0.2,0.3,0.35,0.4,0.6,0.7,0.8,0.95,1.1];
-
+dados.fin_size = fin_size;
 % Entradas no FOR005
 
 % % Inputs do for005 para foguete 2021/RDX em função de (dref,L,Alt0)
