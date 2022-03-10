@@ -1,4 +1,7 @@
+folder = 'Montenegro_10_03_2022';
 fim_plot = 0;
+D2R = pi/180;
+g = 9.81;
 while ~fim_plot
     imenu = menu('Plot 3D','Vel/Mach','Posi��o x tempo','Trajet�ria', ...
         'Angulos ataque/delta','Veloc Angular do corpo (p,q,r)', ...
@@ -27,7 +30,8 @@ while ~fim_plot
             xlabel ('t (s)');
             ylabel ('Mach');
             
-            saveas(gcf, 'LASC_Images/velocidades.png');
+            txt = strcat('Images/', folder, '/velocidades.png');
+            saveas(gcf, txt);
             
         case 2  % Posi��o x tempo
             subplot(221);
@@ -50,7 +54,8 @@ while ~fim_plot
             xlabel ('t (s)');
             ylabel ('Ze Ground Level (m)');
             
-            saveas(gcf, 'LASC_Images/posicao.png');
+            txt = strcat('Images/', folder, '/posicao.png');
+            saveas(gcf, txt);
             
         case 3  % Trajet�ria
             subplot(221);
@@ -71,7 +76,8 @@ while ~fim_plot
             ylabel ('Ze (m)');
             axis('equal');
             
-            saveas(gcf, 'LASC_Images/trajetoria.png');
+            txt = strcat('Images/', folder, '/trajetoria.png');
+            saveas(gcf, txt);
             
         case 4  % �ngulos de ataque e Delta
             subplot(221);
@@ -90,7 +96,8 @@ while ~fim_plot
             ylabel ('Phi (graus)');
             
             
-            saveas(gcf, 'LASC_Images/aoa.png');
+            txt = strcat('Images/', folder, '/aoa.png');
+            saveas(gcf, txt);
          
         case 5  % p, q, r 
             subplot(221);
@@ -109,11 +116,12 @@ while ~fim_plot
             ylabel ('r (graus/s)');
             
              subplot(224);
-            plot(CGa.Time,CGa.Data(:,1)); grid;
+            plot(XCG.Time,XCG.Data(:,1)); grid;
             xlabel ('t (s)');
             ylabel ('CG ref :coifa');
                  
-            saveas(gcf, 'LASC_Images/pqr.png');
+            txt = strcat('Images/', folder, '/pqr.png');
+            saveas(gcf, txt);
             
         case 6  % Ax, Ay, Az
             subplot(221);
@@ -131,7 +139,8 @@ while ~fim_plot
             xlabel ('t (s)');
             ylabel ('Az (m/s2)');
             
-            saveas(gcf, 'LASC_Images/aceleracao.png');
+            txt = strcat('Images/', folder, '/aceleracao.png');
+            saveas(gcf, txt);
             
         case 7  % �ngulos de Euler
             subplot(221);
@@ -149,7 +158,8 @@ while ~fim_plot
             xlabel ('t (s)');
             ylabel ('phi (graus)');
             
-            saveas(gcf, 'LASC_Images/angulos_euler.png');
+            txt = strcat('Images/', folder, '/angulos_euler.png');
+            saveas(gcf, txt);
             
         case 8  % For�as
             subplot(221);
@@ -169,14 +179,15 @@ while ~fim_plot
             
             
             subplot(224);
-            plot(XCPefe.Time,-XCPefe.Data); grid;
+            plot(XCP.Time,-XCP.Data); grid;
             %plot(XCP.Time,(-XCP.Data+XCG.data(:,1))/D.L); grid;
             xlabel ('t (s)');
             ylabel ('Margem est�tica');
             
 
             
-            saveas(gcf, 'LASC_Images/aerodinamica.png');
+            txt = strcat('Images/', folder, '/aerodinamica.png');
+            saveas(gcf, txt);
             
             case 9  % For�as
             subplot(221);
@@ -202,7 +213,8 @@ while ~fim_plot
             ylabel ('FProp (N)');
             
             
-            saveas(gcf, 'LASC_Images/prop.png');
+            txt = strcat('Images/', folder, '/prop.png');
+            saveas(gcf, txt);
             
         case 10  % Momentos
             subplot(221);
@@ -221,7 +233,8 @@ while ~fim_plot
             ylabel ('MAer_z (Nm)');
             
             
-            saveas(gcf, 'LASC_Images/momento_aer.png');
+            txt = strcat('Images/', folder, '/momentos_aer.png');
+            saveas(gcf, txt);
             
         case 11  % Momentos
             subplot(221);
@@ -239,7 +252,8 @@ while ~fim_plot
             xlabel ('t (s)');
             ylabel ('TorqProp_z (Nm)');
             
-            saveas(gcf, 'LASC_Images/momento_prop.png');
+            txt = strcat('Images/', folder, '/momentos_prop.png');
+            saveas(gcf, txt);
             
         case 12  % Parametros do vento
             subplot(231);
@@ -273,7 +287,8 @@ while ~fim_plot
             ylabel ('wb_wind_eixoD');
             
             
-            saveas(gcf, 'LASC_Images/vento.png');
+            txt = strcat('Images/', folder, '/vento.png');
+            saveas(gcf, txt);
             
 
             

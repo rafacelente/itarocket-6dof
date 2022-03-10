@@ -17,7 +17,7 @@ ye2 = linspace(pemp,pemp,6);
 if(OutEmpenas.BetaSaida==90)
     xe3 = linspace(xe2(end),xe2(end),6);
     ye3a = linspace(InputEmpenas.R,pemp,6);
-    ye3 = wrev(ye3a);
+    ye3 = ye3a(length(ye3a):-1:1);
 elseif (OutEmpenas.BetaSaida<90)
     xe3 = linspace(0,InputEmpenas.SPAN/(tand(InputEmpenas.BetaSaida)),6)+empenas.XLE(1)+OutEmpenas.CordaRaiz;
     ye3 = (xe3-empenas.XLE(1)-OutEmpenas.CordaRaiz)*tand(InputEmpenas.BetaSaida)+InputEmpenas.R;

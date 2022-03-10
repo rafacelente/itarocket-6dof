@@ -57,7 +57,7 @@ wind.tipo = 3;      % 1 - Turbulence; 2 - Wind Shear; 3 - Wind Gust; 4 - Turbule
 
 % Parâmetros do Modelo de Turbul�ncia Dryden
 
-turb.windSpeedAt6m      = 0;
+turb.windSpeedAt6m      = 5;
 turb.windDirectionAt6m  = 0;     % degrees clockwise from north
 turb.scaleLength        = 533.4; % [m] Modelo recomenda usar 1750 ft
 turb.wingspan           = 1; % [m] Precisa ser alterado com base no missil  simulado. **
@@ -71,7 +71,7 @@ shear.windDirectionAt6m = 270;
 % Par�metros do modelo de Rajada
 
 gust.length             = [120 120 80];    % Gust length [dx dy dz] [m]
-gust.amplitude          = [(3.5/3)*randn() (3.5/3)*randn() (3.5/3)*randn()];         % Gust amplitude [ug vg wg] [m/s] based on "Assessment of Methodologies to Forecast Wind Gust Speed"
+gust.amplitude          = (5/1.7)*[randn() randn() randn()];         % Gust amplitude [ug vg wg] [m/s] based on "Assessment of Methodologies to Forecast Wind Gust Speed"
 
 % Par�metros de Background Wind NED - Alterar se apropriado
 wind.Xw=5; % ** pode ser alterado
@@ -89,10 +89,10 @@ c.g = 9.7970;                     % gravidade [m/s^2]
 
 % ###------- 4) Condições iniciais de voo [INPUTS] -------------- ### %
 
-D.Alt0 = 1294;                  % altitude inicial [m]
+D.Alt0 = 1401;                  % altitude inicial [m]
 [~,c.vsom,~,c.rho] = atmosisa(D.Alt0);
 
-D.Gama0 = normrnd(85,sigma.rampa)*c.D2R;            % Angulo inicial
+D.Gama0 = normrnd(86,sigma.rampa)*c.D2R;            % Angulo inicial
 
 D.p0 = 0*c.D2R;                     % velocidade angular
 D.q0 = 0*c.D2R;                     %
@@ -139,19 +139,19 @@ D.R = D.Dref/2;
 %%%% input PRP/INTEGRAÇÃO
 prp.Rmaior = 74e-3;     % Raio externo do propelente (m)
 prp.Rmenor = 0.005;     % Raio interno do propelente (m)
-%prp.burntime = 5.469; %s   Apogeu: 2441.352471  
-prp.burntime = 5.945; %s    Apogeu: 2466.820090
+
+prp.burntime = 7.; %
 
 % de acordo com 'Empuxo_RDX_teorico', Tprop = 5.945s
-prp.massa = 4.5;        % massa do propelente (kg)
-prp.length = 190e-3;	% Comprimento do propelente (m)
-prp.cg = 2.027;         % cg do gr�o propelente em relação a coifa  %%%% input INTEGRAÇÃO
+prp.massa = 4.621;        % massa do propelente (kg)
+prp.length = 195e-3;	% Comprimento do propelente (m)
+prp.cg = 2.153;         % cg do gr�o propelente em relação a coifa  %%%% input INTEGRAÇÃO
 
 % ###------- 9) Dados de massa do foguete [INPUTS]  -------------- ### %
 
-fog.massa = 33.5;       % massa do foguete sem propelente (kg), Massa após a queima
-fog.length = 2.28035;	% comprimento do foguete (m)
-fog.cg = 1.446;         % cg vazio(final) em relação a coifa
+fog.massa = 26.169;       % massa do foguete sem propelente (kg), Massa após a queima
+fog.length = 2.411;	% comprimento do foguete (m)
+fog.cg = 1.57;         % cg vazio(final) em relação a coifa
 
 D.L = fog.length;
 D.Tprop = prp.burntime;        % tempo de queima
@@ -249,7 +249,7 @@ D.If = [D.Ixf  0       0; ...
 % % D.dlt4 = 0;
 % % fog.cgf =  1.4460; %cg final em rela��o a coifa
 % % cgi =  1.5145; %cg inicial em rela��o a coifa
-load('ENTRADAS/AED_TO_MVO_2022_01_09_02_38_50.mat');  % tempo de obtenção =     2.1400e+03 Apogeu: 2512.084197
+load('ENTRADAS/AED_TO_MVO_2022_03_10.mat');  % tempo de obtenção =     2.1400e+03 Apogeu: 2512.084197
 %load('ENTRADAS/AED_TO_MVO_2021_09_11_15_08_23.mat');  % tempo de obtenção =     2.1396e+03  Apogeu: 2512.084197
 
 % % dref = 0.1524;
@@ -297,8 +297,8 @@ load('ENTRADAS/AED_TO_MVO_2022_01_09_02_38_50.mat');  % tempo de obtenção =   
 
 % ###------- 2) dados para simulação de rampa [INPUTS] -------------- ### %
 
-rmp.Empuxo_Cortado = 'ENTRADAS/Empuxo_RDX_teorico.dat';      % Arquivo com o empuxo já cortado para o ínicio do movimento. O próprio programa irá cortar o empuxo de novo para o movimento após a rampa.
-rmp.Ltrilho = 5.284;                                % tamanho_do_trilho
+rmp.Empuxo_Cortado = 'ENTRADAS/Empuxo_Montenegro_10_03_2022.txt';      % Arquivo com o empuxo já cortado para o ínicio do movimento. O próprio programa irá cortar o empuxo de novo para o movimento após a rampa.
+rmp.Ltrilho = 5.18;                                % tamanho_do_trilho
 rmp.coef_atrito_da_rampa = 0.5;                       % coeficiente_de_atrito_da_rampa
 
 % ###------- 12) Tempo da simulação 6DOF [INPUTS] -------------- ### %

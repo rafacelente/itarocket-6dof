@@ -8,23 +8,23 @@ close all
 %diâmetro de referência (m)
 rocket.dref = 0.1524;
 %comprimento do foguete (m)
-rocket.L = 2.2803;
+rocket.L = 2.411;
 
 %posição final e inicial do CG em relação ao nariz (m)
-rocket.Lcgf =  1.4460;
-rocket.Lcg0 =  1.5145;
+rocket.Lcgf =  1.57;
+rocket.Lcg0 =  1.661;
 
 % Tipo de geometria da coifa (Tipo 1: Elipsoide, Tipo 2: Ogiva)
 rocket.tipo_coifa = 1;
 % Fineness ratio da coifa (razao entre comprimento e Diametro)
 rocket.fineness = 2.5;
 %semienvergadura da empena (m)
-rocket.semispan = 150/1000; 
+rocket.semispan = 180/1000; 
 rocket.fin_width = 4/1000; %mm de espessura
 %inputs de condição de simulação
 
 %altitude de lançamento (m)
-dados.Alt0 = 1294;
+dados.Alt0 = 1401;
 % vetor de PHI que entra como "alternativa ao angulo BETA"
 % obs* no codigo do peixoto a configuracao eh phi+Alpha_Total
 % ao inves de "alpha+beta". Se quiserem mudar isso, mexer no simulink.
@@ -43,5 +43,5 @@ dados.mach  = [0.06,0.09,0.1,0.2,0.3,0.35,0.4,0.6,0.7,0.8,0.95,1.1];
 tic
 [M]=DATCOM_TO_MVO(dados,for005);
 tempo = toc
-time = datestr(clock,'YYYY_mm_dd_HH_MM_SS');
+time = datestr(clock,'YYYY_mm_dd');
 save(strcat('AED_TO_MVO_',time),'M','dados','for005')
