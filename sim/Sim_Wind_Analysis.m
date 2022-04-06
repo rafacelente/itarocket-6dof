@@ -32,7 +32,10 @@ clear all;
 close all;
 clc
 
+apogees = [];
+max_wind_speed = 10;
 %% [1] INPUTS
+for wind_vel = 0:0.5:max_wind_speed
 
 % ###------- 1) Desvios [INPUTS] -------------- ### %
 sigma.delta = 1*pi/180*0;	% desvios de deflexão das empenas
@@ -52,7 +55,7 @@ desv_emp.phi = pi/2*0;          %bloco propulsão, cálculo de Fprop
 % Autor: Mol(T19), Elite(T21) e Onze(T20)
 % Parâmetros
 
-wind.On = 0;        % 0 - Sem Vento, 1-Com Vento
+wind.On = 1;        % 0 - Sem Vento, 1-Com Vento
 wind.tipo = 3;      % 1 - Turbulence; 2 - Wind Shear; 3 - Wind Gust; 4 - Turbulence + Wind Gust
 
 % Parâmetros do Modelo de Turbul�ncia Dryden
@@ -74,7 +77,7 @@ gust.length             = [120 120 80];    % Gust length [dx dy dz] [m]
 gust.amplitude          = (5/1.7)*[randn() randn() randn()];         % Gust amplitude [ug vg wg] [m/s] based on "Assessment of Methodologies to Forecast Wind Gust Speed"
 
 % Par�metros de Background Wind NED - Alterar se apropriado
-wind.Xw=5; % ** pode ser alterado
+wind.Xw=wind_vel; % ** pode ser alterado
 wind.Vw=0; % ** pode ser alterado
 wind.Zw=0; % ** poder ser alterado
 
@@ -149,7 +152,7 @@ prp.cg = 2.153;         % cg do gr�o propelente em relação a coifa  %%%% inp
 
 % ###------- 9) Dados de massa do foguete [INPUTS]  -------------- ### %
 
-fog.massa = 25.844;       % massa do foguete sem propelente (kg), Massa após a queima
+fog.massa = 25.8;       % massa do foguete sem propelente (kg), Massa após a queima
 fog.length = 2.39;	% comprimento do foguete (m)
 fog.cg = 1.56;         % cg vazio(final) em relação a coifa
 
@@ -298,7 +301,7 @@ load('ENTRADAS/AED_TO_MVO_2022_04_02_15_57_37.mat');  % tempo de obtenção =   
 % ###------- 2) dados para simulação de rampa [INPUTS] -------------- ### %
 
 rmp.Empuxo_Cortado = 'ENTRADAS/Empuxo_Montenegro_06_04_2022.txt';      % Arquivo com o empuxo já cortado para o ínicio do movimento. O próprio programa irá cortar o empuxo de novo para o movimento após a rampa.
-rmp.Ltrilho = 5.7;                                % tamanho_do_trilho
+rmp.Ltrilho = 5.18;                                % tamanho_do_trilho
 rmp.coef_atrito_da_rampa = 0.5;                       % coeficiente_de_atrito_da_rampa
 
 % ###------- 12) Tempo da simulação 6DOF [INPUTS] -------------- ### %
@@ -365,5 +368,8 @@ teste  = sim('SIM_6DOF_completo_qnathy_comparaPeixoto.slx');
 % save('Sim_Tprop5945')     % salvar o workspace resultante da simulação com Tprop = 5.945 s
 % save('Sim_Tprop5469')     % salvar o workspace resultante da simulação com Tprop = 5.469 s
 
-fprintf("Apogeu: %f\n", abs(Xe.Data(end,3)) - D.Alt0); % Print do apogeu
+fprintf("Apogeu (wind = %f): %f\n", wind_vel, abs(Xe.Data(end,3)) - D.Alt0); % Print do apogeu
+apogees = [apogees; abs(Xe.Data(end,3)) - D.Alt0]
+end
 
+wind_analysis(apogees, max_wind_speed);

@@ -1,4 +1,4 @@
-folder = 'Montenegro_10_03_2022';
+folder = 'Montenegro_2022_04_06';
 fim_plot = 0;
 D2R = pi/180;
 g = 9.81;
@@ -83,42 +83,42 @@ while ~fim_plot
             subplot(221);
             plot(Alfa.Time,Alfa.Data/D2R); grid;
             xlabel ('t (s)');
-            ylabel ('Alfa (graus)');
+            ylabel ('$\alpha$ (degrees)', 'Interpreter','latex');
             
             subplot(222);
             plot(Beta.Time,Beta.Data/D2R); grid;
             xlabel ('t (s)');
-            ylabel ('Beta (graus)');
+            ylabel ('$\beta$ (degrees)', 'Interpreter','latex');
             
             subplot(223);
             plot(Phi.Time,Phi.Data/D2R); grid;
             xlabel ('t (s)');
-            ylabel ('Phi (graus)');
+            ylabel ('$\phi$ (degrees)', 'Interpreter','latex');
             
             
             txt = strcat('Images/', folder, '/aoa.png');
             saveas(gcf, txt);
          
-        case 5  % p, q, r 
+        case 5  % p, q, r
             subplot(221);
             plot(wb.Time,wb.Data(:,1)/D2R); grid;
             xlabel ('t (s)');
-            ylabel ('p (graus/s)');
+            ylabel ('p (degrees/s)');
             
             subplot(222);
             plot(wb.Time,wb.Data(:,2)/D2R); grid;
             xlabel ('t (s)');
-            ylabel ('q (graus/s)');
+            ylabel ('q (degrees/s)');
             
             subplot(223);
             plot(wb.Time,wb.Data(:,3)/D2R); grid;
             xlabel ('t (s)');
-            ylabel ('r (graus/s)');
+            ylabel ('r (degrees/s)');
             
              subplot(224);
             plot(XCG.Time,XCG.Data(:,1)); grid;
             xlabel ('t (s)');
-            ylabel ('CG ref :coifa');
+            ylabel ('CG ref: nose');
                  
             txt = strcat('Images/', folder, '/pqr.png');
             saveas(gcf, txt);
@@ -146,17 +146,17 @@ while ~fim_plot
             subplot(221);
             plot(Euler.Time,Euler.Data(:,3)/D2R); grid;
             xlabel ('t (s)');
-            ylabel ('psi (graus)');
+            ylabel ('$\psi$ (degrees)', 'Interpreter','latex');
             
             subplot(222);
             plot(Euler.Time,Euler.Data(:,2)/D2R); grid;
             xlabel ('t (s)');
-            ylabel ('teta (graus)');
+            ylabel ('$\theta$ (degrees)', 'Interpreter','latex');
              
             subplot(223);
             plot(Euler.Time,Euler.Data(:,1)/D2R); grid;
             xlabel ('t (s)');
-            ylabel ('phi (graus)');
+            ylabel ('$\phi$ (degrees)', 'Interpreter','latex');
             
             txt = strcat('Images/', folder, '/angulos_euler.png');
             saveas(gcf, txt);
