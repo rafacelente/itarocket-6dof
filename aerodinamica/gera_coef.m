@@ -2,6 +2,7 @@ clear all
 clc
 close all
 
+
 %% INPUTS do foguete - mudar para app depois
 
 %geometria do foguete
@@ -9,6 +10,7 @@ close all
 rocket.dref = 0.1524;
 %comprimento do foguete (m)
 rocket.L = 2.411;
+
 
 %posição final e inicial do CG em relação ao nariz (m)
 rocket.Lcgf =  1.57;
@@ -36,9 +38,11 @@ dados.cg = linspace(rocket.Lcgf,rocket.Lcg0,5);
 dados.alpha = [-20.,-16.,-12.,-8.,-4.,-2.,0.,2.,4.,8.,12.,16.,20.];
 dados.mach  = [0.06,0.09,0.1,0.2,0.3,0.35,0.4,0.6,0.7,0.8,0.95,1.1];
 
+
 %%
 % Construção do arquivo de entrada do DATCOM
 [for005] = for005_builder(rocket, dados);
+
 %% RODAR O  DATCOM  PARA A MVO, EXTRAINDO OS DADOS DELE E SALVANDO.
 tic
 [M]=DATCOM_TO_MVO(dados,for005);
