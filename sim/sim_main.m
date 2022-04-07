@@ -2,6 +2,20 @@ clear all;
 close all;
 clc
 
+%TODO:
+%revisar struct D- muito grande, repetição de dados
+%fazer GUI
+%input e output por projetos (copiar input no output?)
+%revisar cálculo de inércias
+%fazer simulação 1D da rampa? melhorar formato de corte do empuxxo
+%atualizar nomes dos arquivos
+%facilitar obtenção de máximos, dados importantes
+%.gitignore
+%ativar MATLAB COmparison Tools e marcar arquivos binários p comparar slx
+%README.md
+
+
+
 %% INPUTS
 empty_mass = 25.844;          %Massa vazia do foguete (kg)
 rocket_length = 2.39;              %Comprimento total do foguete (m)
