@@ -9,20 +9,20 @@ close all
 %diâmetro de referência (m)
 rocket.dref = 0.1524;
 %comprimento do foguete (m)
-rocket.L = 2.411;
+rocket.L = 2.352;
 
 
 %posição final e inicial do CG em relação ao nariz (m)
-rocket.Lcgf =  1.57;
-rocket.Lcg0 =  1.661;
+rocket.Lcgf =  1.531;
+rocket.Lcg0 =  1.638;
 
 % Tipo de geometria da coifa (Tipo 1: Elipsoide, Tipo 2: Ogiva)
 rocket.tipo_coifa = 1;
 % Fineness ratio da coifa (razao entre comprimento e Diametro)
 rocket.fineness = 2.5;
 %semienvergadura da empena (m)
-rocket.semispan = 180/1000; 
-rocket.fin_width = 4/1000; %mm de espessura
+rocket.semispan = 150/1000; 
+rocket.fin_width = 3.2/1000; %mm de espessura
 %inputs de condição de simulação
 
 %altitude de lançamento (m)
