@@ -1,7 +1,7 @@
 DIM M
 DERIV RAD
 DAMP
-$REFQ     XCG=1.6380,
+$REFQ     XCG=1.6350,
           SREF=0.01824147,
           LREF=0.1524,
           BLAYER=TURB,$
@@ -108,13 +108,13 @@ $AXIBOD   NX=50.,
             0.076200, 
           DISCON=50.,
           DEXIT=0.,$
-$FINSET1  SSPAN=0.0762,0.2262,
-          CHORD=0.3000,0.1500,
+$FINSET1  SSPAN=0.0762,0.2362,
+          CHORD=0.3200,0.1600,
           CFOC=1.,1.,1.,
-          XLE=2.052,2.202,
-          ZUPPER=0.00533,0.01067,
-          LMAXU=0.00924,0.01848,
-          LFLATU=0.98152,0.96305,
+          XLE=2.032,2.192,
+          ZUPPER=0.00500,0.01000,
+          LMAXU=0.00866,0.01732,
+          LFLATU=0.98268,0.96536,
           LER=0.00064,0.00064,
           NPANEL=4.,
           PHIF=45.,135.,225.,315.,$
